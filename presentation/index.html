@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Presentation | Mini Project Showcase Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4268e8;
+            --primary-dark: #2f4ebf;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #090d16;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .slide-container {
+            width: min(1000px, 94vw);
+            min-height: 580px;
+            background: linear-gradient(135deg, #131b2e 0%, #1e293b 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(66, 104, 232, 0.2);
+            color: #8da6ff;
+            border: 1px solid rgba(66, 104, 232, 0.4);
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        h1 span {
+            color: #6086ff;
+        }
+
+        h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #f8fafc;
+        }
+
+        p {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 18px;
+            color: white;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: #cbd5e1;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .table th, .table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+
+        .table th {
+            color: #8da6ff;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+        
+        <!-- SLIDE 1: Title Slide -->
+        <div class="slide active">
+            <span class="badge">Problem Statement 4 · Mini Project Showcase Portal</span>
+            <h1>Project<span>Hub</span></h1>
+            <p style="font-size: 20px; color: #cbd5e1; max-width: 700px;">
+                A centralized, digital academic project repository with faculty approval workflow, 
+                rich search & filtering, and domain-wise analytics.
+            </p>
+            <div class="grid-2" style="max-width: 600px; margin-top: 36px;">
+                <div class="card">
+                    <h3>👨‍🎓 Student Role</h3>
+                    <p>Project submission, GitHub links, screenshots, real-time approval tracking.</p>
+                </div>
+                <div class="card">
+                    <h3>👨‍🏫 Faculty Role</h3>
+                    <p>Submissions review, approval / rejection with feedback, domain analytics.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Problem Statement & Objectives -->
+        <div class="slide">
+            <span class="badge">Objective & Challenges</span>
+            <h2>Why ProjectHub is Needed</h2>
+            <p>
+                Engineering students develop multiple projects during their degree, but their work is scattered, 
+                lost after semester evaluations, and rarely showcased to juniors, recruiters, or campus visitors.
+            </p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>⚠️ The Challenges</h3>
+                    <p>• Lack of centralized digital repository for academic mini projects<br>
+                    • No systematic faculty quality assurance prior to public display<br>
+                    • Difficult to search projects by tech stack, batch, or domain</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 The Solution</h3>
+                    <p>• Centralized web platform connecting students and evaluators<br>
+                    • Strict 2-tier approval workflow (Pending → Approved / Rejected)<br>
+                    • Real-time search across titles, technologies, and batches</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: System Architecture & Tech Stack -->
+        <div class="slide">
+            <span class="badge">System Architecture</span>
+            <h2>Tech Stack & Database Design</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>💻 Tech Stack</h3>
+                    <p>
+                        • <strong>Frontend:</strong> HTML5, Responsive CSS3, JavaScript (ES6+)<br>
+                        • <strong>Backend:</strong> Node.js, Express.js REST API<br>
+                        • <strong>Database:</strong> MySQL 8.0 (Relational tables + Foreign Keys)<br>
+                        • <strong>Auth:</strong> JWT & Bcrypt password hashing
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>🗄️ MySQL Database Schema</h3>
+                    <table class="table">
+                        <tr>
+                            <th>Table</th>
+                            <th>Key Fields</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Users</strong></td>
+                            <td>userId, name, role (student/faculty), email, password</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Projects</strong></td>
+                            <td>projectId, title, description, technologies, githubLink, screenshotPath, category, batch, studentId, status</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Core Modules -->
+        <div class="slide">
+            <span class="badge">Implementation</span>
+            <h2>Core Modules Delivered</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>1. Authentication Module</h3>
+                    <p>Role-based login and registration for Students & Faculty with bcrypt hashing & JWT tokens.</p>
+                </div>
+                <div class="card">
+                    <h3>2. Project Management</h3>
+                    <p>Students submit project details, upload screenshots, provide GitHub URLs, and edit before approval.</p>
+                </div>
+                <div class="card">
+                    <h3>3. Approval Workflow</h3>
+                    <p>Faculty reviews pending submissions, inspects source code, and approves or rejects with constructive feedback.</p>
+                </div>
+                <div class="card">
+                    <h3>4. Search & Analytics</h3>
+                    <p>Multi-parameter search by tech stack, batch, domain, plus category distribution charts.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Live Demo & Verification -->
+        <div class="slide">
+            <span class="badge">Evaluation & Demo</span>
+            <h2>Live Application Showcase</h2>
+            <p>The system is fully deployed on local server and connected to live MySQL database.</p>
+            <div style="background: rgba(66,104,232,0.15); border: 1px solid rgba(66,104,232,0.4); padding: 24px; border-radius: 12px; margin-top: 20px;">
+                <h3 style="color: #8da6ff; margin-bottom: 12px;">🚀 Quick Demo Links</h3>
+                <p style="color: white; font-size: 14px; margin-bottom: 16px;">
+                    1. <strong>Explore Projects:</strong> <a href="../pages/explore.html" target="_blank" style="color: #6086ff;">Open Explore Page ↗</a><br>
+                    2. <strong>Student Dashboard:</strong> <a href="../pages/student-dashboard.html" target="_blank" style="color: #6086ff;">Open Student Portal ↗</a><br>
+                    3. <strong>Faculty Review:</strong> <a href="../pages/faculty-dashboard.html" target="_blank" style="color: #6086ff;">Open Faculty Review Queue ↗</a><br>
+                    4. <strong>Live Landing:</strong> <a href="../index.html" target="_blank" style="color: #6086ff;">Open Home Page ↗</a>
+                </p>
+                <a href="../index.html" target="_blank" class="btn">Launch Live Application ↗</a>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="controls">
+            <button class="btn btn-outline" id="prevBtn" onclick="prevSlide()">← Previous</button>
+            <span class="slide-counter" id="slideCounter">Slide 1 of 5</span>
+            <div style="display: flex; gap: 10px;">
+                <a href="../index.html" target="_blank" class="btn btn-outline">Go to App ↗</a>
+                <button class="btn" id="nextBtn" onclick="nextSlide()">Next Slide →</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const counter = document.getElementById('slideCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlide() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            counter.textContent = `Slide ${currentSlide + 1} of ${slides.length}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.textContent = currentSlide === slides.length - 1 ? 'Finish Presentation ✓' : 'Next Slide →';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>

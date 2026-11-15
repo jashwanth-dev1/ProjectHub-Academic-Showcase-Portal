@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Dashboard | ProjectHub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/app-style.css">
+    <link rel="stylesheet" href="../css/sidebar-dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-layout">
+
+        <!-- ============================================================
+             1. FIXED LEFT SIDEBAR (ALL APP MODULES ACCESSED FROM HERE)
+        ============================================================ -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div>
+                <!-- Brand Logo -->
+                <div class="sidebar-brand">
+                    <a href="dashboard.html" class="logo">
+                        <span class="logo-icon">P</span>
+                        Project<span>Hub</span>
+                    </a>
+                    <button class="mobile-sidebar-toggle" style="color:#94a3b8;" onclick="toggleSidebar()">✕</button>
+                </div>
+
+                <!-- User Profile Card in Sidebar -->
+                <div class="sidebar-user-card">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
+                    <div class="user-meta">
+                        <strong id="sidebarUserName">User Name</strong>
+                        <small id="sidebarUserEmail">user@campus.edu</small>
+                        <span class="role-pill role-student" id="sidebarRolePill">STUDENT</span>
+                    </div>
+                </div>
+
+                <!-- Sidebar Navigation Menu -->
+                <nav class="sidebar-nav">
+                    
+                    <!-- STUDENT MENU SECTION -->
+                    <div id="studentNavSection">
+                        <div class="nav-section-title">Student Portal</div>
+                        <ul class="sidebar-menu">
+                            <li>
+                                <button class="nav-item-btn active" data-view="view-student-overview" onclick="navigateSidebar('view-student-overview', 'Dashboard Overview', 'Quick summary of your project submissions')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">📊</span>
+                                        <span>Overview</span>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-student-submissions" onclick="navigateSidebar('view-student-submissions', 'My Submissions', 'Manage and track your project approvals')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">📁</span>
+                                        <span>My Projects</span>
+                                    </div>
+                                    <span class="nav-item-badge nav-badge-blue" id="sidebarMyCount">0</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-student-submit" onclick="navigateSidebar('view-student-submit', 'Submit Project', 'Upload project details, screenshots, and GitHub links')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">➕</span>
+                                        <span>Submit Project</span>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-browse-projects" onclick="navigateSidebar('view-browse-projects', 'Browse Showcase', 'Search approved academic projects across campus')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">🔍</span>
+                                        <span>Browse & Search</span>
+                                    </div>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- FACULTY MENU SECTION -->
+                    <div id="facultyNavSection" style="display: none;">
+                        <div class="nav-section-title">Faculty Evaluator</div>
+                        <ul class="sidebar-menu">
+                            <li>
+                                <button class="nav-item-btn" data-view="view-faculty-analytics" onclick="navigateSidebar('view-faculty-analytics', 'Dashboard & Analytics', 'Category-wise project counts and submission analytics')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">📈</span>
+                                        <span>Analytics & Stats</span>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-faculty-review" onclick="navigateSidebar('view-faculty-review', 'Approval Workflow', 'Evaluate and approve newly submitted projects')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">⏳</span>
+                                        <span>Pending Reviews</span>
+                                    </div>
+                                    <span class="nav-item-badge nav-badge-amber" id="sidebarPendingBadge">0</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-faculty-repository" onclick="navigateSidebar('view-faculty-repository', 'All Projects Repository', 'Search and inspect all campus projects in MySQL')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">📚</span>
+                                        <span>All Projects</span>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="nav-item-btn" data-view="view-browse-projects" onclick="navigateSidebar('view-browse-projects', 'Public Showcase View', 'Explore how students see the public project showcase')">
+                                    <div class="nav-item-left">
+                                        <span class="nav-item-icon">🔍</span>
+                                        <span>Explore Showcase</span>
+                                    </div>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </nav>
+            </div>
+
+            <!-- Sidebar Bottom Footer -->
+            <div class="sidebar-footer">
+                <div class="db-status-badge">
+                    <span class="db-status-dot"></span>
+                    
+                </div>
+                <button onclick="logout()" class="btn-sidebar-logout">
+                    <span>Sign Out</span>
+                    <span>⎋</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ============================================================
+             2. MAIN CONTENT AREA (DYNAMICALLY SWITCHED BY SIDEBAR)
+        ============================================================ -->
+        <main class="dashboard-main">
+            
+            <!-- TOPBAR -->
+            <header class="dashboard-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-sidebar-toggle" onclick="toggleSidebar()">☰</button>
+                    <div class="topbar-title">
+                        <h2 id="topbarHeading">Dashboard Overview</h2>
+                        <small id="topbarSubheading">Manage and track your project submissions</small>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button onclick="quickAction()" id="topbarActionBtn" class="btn btn-primary btn-sm">
+                        + Submit Project
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN DYNAMIC VIEWS CONTAINER -->
+            <div class="dashboard-view-container">
+
+                <!-- --------------------------------------------------------
+                     VIEW 1: STUDENT OVERVIEW
+                --------------------------------------------------------- -->
+                <section class="dashboard-view active" id="view-student-overview">
+                    <div class="stats-cards-grid">
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-blue">📁</div>
+                            <div class="dash-stat-info">
+                                <h3 id="statTotalSubmissions">0</h3>
+                                <p>Total Submissions</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-green">✅</div>
+                            <div class="dash-stat-info">
+                                <h3 id="statApprovedSubmissions" style="color: #15803d;">0</h3>
+                                <p>Approved & Live</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-orange">⏳</div>
+                            <div class="dash-stat-info">
+                                <h3 id="statPendingSubmissions" style="color: #b45309;">0</h3>
+                                <p>Under Review</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-pink">🔄</div>
+                            <div class="dash-stat-info">
+                                <h3 id="statRejectedSubmissions" style="color: #b91c1c;">0</h3>
+                                <p>Revisions Needed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Banner -->
+                    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 28px; border-radius: 16px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div>
+                            <span class="badge" style="background: rgba(66,104,232,0.3); color: #8da6ff; margin-bottom: 8px;">ACADEMIC REPOSITORY</span>
+                            <h3 style="font-family: 'Manrope', sans-serif; font-size: 22px; margin-bottom: 6px;">Have a new mini project to showcase?</h3>
+                            <p style="color: #94a3b8; font-size: 13px; max-width: 520px;">
+                                Submit your project with GitHub source links, descriptions, and architecture screenshots. Faculty review will publish it to the campus repository.
+                            </p>
+                        </div>
+                        <button onclick="navigateSidebar('view-student-submit', 'Submit Project', 'Upload project details, screenshots, and GitHub links')" class="btn btn-primary btn-large">
+                            Submit Project Now ↗
+                        </button>
+                    </div>
+
+                    <!-- Recent Submissions Preview Table -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3>My Recent Submissions</h3>
+                                <p style="font-size: 12px; color: #64748b;">Live status from MySQL database</p>
+                            </div>
+                            <button onclick="navigateSidebar('view-student-submissions', 'My Submissions', 'Manage and track your project approvals')" class="btn btn-outline btn-sm">
+                                View All ↗
+                            </button>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Title</th>
+                                        <th>Category</th>
+                                        <th>Batch</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="overviewRecentTableBody">
+                                    <tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8;">Loading submissions...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 2: STUDENT MY PROJECTS (PROJECT MANAGEMENT MODULE 2)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-student-submissions">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3>My Project Submissions (Module 2: Project Management)</h3>
+                                <p style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                                    Track approval status. Projects remain editable or deletable prior to faculty approval.
+                                </p>
+                            </div>
+                            <button onclick="navigateSidebar('view-student-submit', 'Submit Project', 'Upload project details, screenshots, and GitHub links')" class="btn btn-primary btn-sm">
+                                + Submit New Project
+                            </button>
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Details</th>
+                                        <th>Category</th>
+                                        <th>Batch</th>
+                                        <th>Technologies</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th style="text-align: right;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentProjectsTableBody">
+                                    <tr><td colspan="7" style="text-align:center;padding:30px;color:#94a3b8;">Loading from MySQL...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 3: SUBMIT PROJECT FORM (MODULE 2)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-student-submit">
+                    <div style="background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 32px; max-width: 780px; margin: 0 auto; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+                        <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
+                            <h2 style="font-family: 'Manrope', sans-serif; font-size: 22px; font-weight: 800; color: var(--dark);" id="projectFormHeading">
+                                Submit Academic Mini Project
+                            </h2>
+                            <p style="font-size: 13px; color: #64748b; margin-top: 4px;">
+                                Saved directly to the MySQL database and routed to faculty for review.
+                            </p>
+                        </div>
+
+                        <form id="projectForm" onsubmit="handleProjectFormSubmit(event)">
+                            <input type="hidden" id="editProjectId" value="">
+
+                            <div class="form-group">
+                                <label for="projectTitle">Project Title *</label>
+                                <input type="text" id="projectTitle" class="form-control" placeholder="e.g. Smart Campus Assistant" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="projectCategory">Domain / Category *</label>
+                                    <select id="projectCategory" class="form-control" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Web Development">Web Development</option>
+                                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                        <option value="Mobile Applications">Mobile Applications</option>
+                                        <option value="Internet of Things">Internet of Things</option>
+                                        <option value="Cybersecurity">Cybersecurity</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="Cloud & DevOps">Cloud & DevOps</option>
+                                        <option value="Other Innovations">Other Innovations</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="projectBatch">Academic Batch *</label>
+                                    <select id="projectBatch" class="form-control" required>
+                                        <option value="2023-2027">Batch 2023-2027</option>
+                                        <option value="2022-2026">Batch 2022-2026</option>
+                                        <option value="2021-2025">Batch 2021-2025</option>
+                                        <option value="2024-2028">Batch 2024-2028</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="projectTech">Technologies Used *</label>
+                                <input type="text" id="projectTech" class="form-control" placeholder="e.g. Node.js, Express, MySQL, HTML/CSS" required>
+                                <small style="font-size: 11px; color: #94a3b8;">Comma separated (e.g. React, Node.js, MySQL)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="projectGithub">GitHub Source Code Link</label>
+                                <input type="text" id="projectGithub" class="form-control" placeholder="https://github.com/username/project-repository">
+                            </div>
+
+                            <!-- Screenshot Picker & Preview -->
+                            <div class="form-group">
+                                <label>Project Screenshot / Architecture Diagram</label>
+                                <input type="file" id="filePicker" accept="image/*" onchange="handleImageFile(this)" style="font-size: 12px; margin-bottom: 8px;">
+                                <input type="text" id="projectScreenshot" class="form-control" placeholder="Or paste image URL...">
+                                <div id="previewContainer" style="margin-top: 10px; display: none;">
+                                    <img id="imagePreview" src="" alt="Screenshot Preview" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1;">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="projectDesc">Project Description & Architecture *</label>
+                                <textarea id="projectDesc" class="form-control" rows="4" placeholder="Explain the problem statement, solution, key features, and implementation..." required></textarea>
+                            </div>
+
+                            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                                <button type="button" class="btn btn-outline" onclick="navigateSidebar('view-student-submissions', 'My Submissions', 'Manage and track your project approvals')">Cancel</button>
+                                <button type="submit" id="saveBtn" class="btn btn-primary">
+                                    Submit Project to MySQL ↗
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 4: BROWSE & SEARCH PROJECTS (MODULE 4)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-browse-projects">
+                    <div class="filter-toolbar" style="margin-top: 0;">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="browseSearchInput" placeholder="Search by title, keyword, or technology (e.g. Python, MySQL, IoT)..." oninput="debounceBrowseSearch()">
+                        </div>
+
+                        <div class="filter-selects">
+                            <select id="browseCategoryFilter" onchange="loadApprovedProjects()">
+                                <option value="All">All Categories</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                <option value="Mobile Applications">Mobile Applications</option>
+                                <option value="Internet of Things">Internet of Things</option>
+                                <option value="Cybersecurity">Cybersecurity</option>
+                                <option value="Data Science">Data Science</option>
+                            </select>
+
+                            <select id="browseBatchFilter" onchange="loadApprovedProjects()">
+                                <option value="All">All Batches</option>
+                                <option value="2023-2027">Batch 2023-2027</option>
+                                <option value="2022-2026">Batch 2022-2026</option>
+                                <option value="2021-2025">Batch 2021-2025</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="project-grid" id="browseGrid">
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
+                            Loading approved projects from MySQL database...
+                        </div>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 5: FACULTY ANALYTICS (MODULE 5: DASHBOARD ANALYSIS)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-faculty-analytics">
+                    <div class="stats-cards-grid">
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-blue">📊</div>
+                            <div class="dash-stat-info">
+                                <h3 id="facStatTotal">0</h3>
+                                <p>Total Projects</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card" style="border-color: #fde68a; background: #fffdf5;">
+                            <div class="dash-stat-icon icon-orange">⏳</div>
+                            <div class="dash-stat-info">
+                                <h3 id="facStatPending" style="color: #b45309;">0</h3>
+                                <p style="color: #b45309; font-weight: 700;">Pending Review</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-green">✅</div>
+                            <div class="dash-stat-info">
+                                <h3 id="facStatApproved" style="color: #15803d;">0</h3>
+                                <p>Approved & Live</p>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon icon-purple">👨‍🎓</div>
+                            <div class="dash-stat-info">
+                                <h3 id="facStatStudents">0</h3>
+                                <p>Student Creators</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <!-- Category-wise Project Counts -->
+                        <div class="analytics-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <h4>Category-Wise Project Distribution (Module 5)</h4>
+                                <span style="font-size: 11px; font-weight: 700; color: var(--primary);">Live MySQL Aggregation</span>
+                            </div>
+                            <div id="categoryBars">
+                                <p style="font-size: 12px; color: #94a3b8;">Loading category analytics...</p>
+                            </div>
+                        </div>
+
+                        <!-- Batch-wise Distribution -->
+                        <div class="analytics-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <h4>Batch-Wise Project Counts</h4>
+                                <span style="font-size: 11px; font-weight: 700; color: #10b981;">Academic Batches</span>
+                            </div>
+                            <div id="batchBars">
+                                <p style="font-size: 12px; color: #94a3b8;">Loading batch analytics...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 6: FACULTY APPROVAL QUEUE (MODULE 3: APPROVAL WORKFLOW)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-faculty-review">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3 style="display: flex; align-items: center; gap: 10px;">
+                                    <span>Pending Submissions Awaiting Faculty Review</span>
+                                    <span id="pendingBadgeHeader" class="badge badge-pending">0 Pending</span>
+                                </h3>
+                                <p style="font-size: 12px; color: #64748b; margin-top: 4px;">
+                                    Evaluate project quality and source code before approving to public showcase.
+                                </p>
+                            </div>
+                            <button onclick="loadPendingProjects()" class="btn btn-outline btn-sm">
+                                ↻ Refresh Queue
+                            </button>
+                        </div>
+
+                        <div style="padding: 24px;" id="pendingQueueContainer">
+                            <div style="text-align: center; padding: 40px; color: #94a3b8;">
+                                Loading pending submissions from MySQL...
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------------
+                     VIEW 7: ALL PROJECTS REPOSITORY (FACULTY)
+                --------------------------------------------------------- -->
+                <section class="dashboard-view" id="view-faculty-repository">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <h3>All Campus Projects Repository</h3>
+                                <p style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                                    Complete MySQL database history of all projects.
+                                </p>
+                            </div>
+                            <input type="text" id="repoSearchInput" placeholder="Filter projects..." oninput="filterRepoTable()" style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title & Tech</th>
+                                        <th>Student Creator</th>
+                                        <th>Category</th>
+                                        <th>Batch</th>
+                                        <th>Status</th>
+                                        <th style="text-align: right;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allProjectsTableBody">
+                                    <tr><td colspan="7" style="text-align:center;padding:30px;color:#94a3b8;">Loading records...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- REJECTION REASON MODAL -->
+    <div class="modal-overlay" id="rejectModal">
+        <div class="modal-dialog" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3 style="color: #b91c1c;">Request Project Revisions</h3>
+                <button class="modal-close" onclick="closeRejectModal()">✕</button>
+            </div>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                Provide constructive feedback explaining what needs to be improved or corrected.
+            </p>
+            <input type="hidden" id="rejectProjectId" value="">
+            <div class="form-group">
+                <label for="feedbackText">Feedback / Revision Reason *</label>
+                <textarea id="feedbackText" class="form-control" rows="4" placeholder="e.g. Please provide a working GitHub repository link and add screenshots of test results..."></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button type="button" class="btn btn-outline" onclick="closeRejectModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="submitRejection()">
+                    Confirm & Send Feedback
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        let currentUser = null;
+        let myProjects = [];
+        let pendingProjects = [];
+        let allProjects = [];
+        let approvedProjects = [];
+        let browseDebounceTimer = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            currentUser = requireAuth();
+            if (!currentUser) return; // redirecting to login
+
+            const userName = currentUser.name || 'User';
+            const userEmail = currentUser.email || 'user@campus.edu';
+            const userRole = (currentUser.role || 'student').toLowerCase();
+
+            // Populate User Card in Sidebar safely
+            const nameEl = document.getElementById('sidebarUserName');
+            if (nameEl) nameEl.textContent = userName;
+            const emailEl = document.getElementById('sidebarUserEmail');
+            if (emailEl) emailEl.textContent = userEmail;
+            const avatarEl = document.getElementById('sidebarAvatar');
+            if (avatarEl) avatarEl.textContent = userName.charAt(0).toUpperCase();
+
+            const pill = document.getElementById('sidebarRolePill');
+            if (pill) {
+                pill.textContent = userRole.toUpperCase();
+                pill.className = `role-pill role-${userRole}`;
+            }
+
+            // Configure Sidebar based on Role
+            const studentNav = document.getElementById('studentNavSection');
+            const facultyNav = document.getElementById('facultyNavSection');
+            const topbarBtn = document.getElementById('topbarActionBtn');
+
+            if (userRole === 'faculty') {
+                if (studentNav) studentNav.style.display = 'none';
+                if (facultyNav) facultyNav.style.display = 'block';
+                if (topbarBtn) topbarBtn.style.display = 'none'; // faculty doesn't submit
+                
+                // Set default faculty view
+                navigateSidebar('view-faculty-analytics', 'Dashboard & Analytics', 'Category-wise project counts and submission analytics');
+                loadDashboardStats();
+                loadPendingProjects();
+                loadAllProjectsTable();
+            } else {
+                if (studentNav) studentNav.style.display = 'block';
+                if (facultyNav) facultyNav.style.display = 'none';
+                if (topbarBtn) topbarBtn.style.display = 'inline-flex';
+                
+                // Set default student view
+                navigateSidebar('view-student-overview', 'Dashboard Overview', 'Quick summary of your project submissions');
+                loadMyProjects();
+                loadApprovedProjects();
+            }
+        });
+
+        // Sidebar Navigation Switcher
+        function navigateSidebar(viewId, heading, subheading) {
+            // Hide all views
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+            // Remove active from all sidebar buttons
+            document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected view
+            const targetView = document.getElementById(viewId);
+            if (targetView) targetView.classList.add('active');
+
+            // Set active sidebar button
+            const activeBtn = document.querySelector(`.nav-item-btn[data-view="${viewId}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Update Topbar
+            const hEl = document.getElementById('topbarHeading');
+            if (hEl && heading) hEl.textContent = heading;
+            const subEl = document.getElementById('topbarSubheading');
+            if (subEl && subheading) subEl.textContent = subheading;
+
+            // Close mobile sidebar if open
+            const sidebar = document.getElementById('appSidebar');
+            if (sidebar && sidebar.classList.contains('open')) sidebar.classList.remove('open');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('appSidebar').classList.toggle('open');
+        }
+
+        function quickAction() {
+            navigateSidebar('view-student-submit', 'Submit Project', 'Upload project details, screenshots, and GitHub links');
+        }
+
+        // ==========================================
+        // STUDENT MODULE: MY PROJECTS & SUBMIT
+        // ==========================================
+        async function loadMyProjects() {
+            try {
+                const res = await ProjectHubAPI.getMyProjects();
+                myProjects = res.projects || [];
+                updateStudentStats();
+                renderStudentProjectsTable();
+                renderOverviewRecentTable();
+            } catch (err) {
+                console.error('My projects load error:', err);
+            }
+        }
+
+        function updateStudentStats() {
+            const total = myProjects.length;
+            const approved = myProjects.filter(p => p.status === 'Approved').length;
+            const pending = myProjects.filter(p => p.status === 'Pending').length;
+            const rejected = myProjects.filter(p => p.status === 'Rejected').length;
+
+            const elTotal = document.getElementById('statTotalSubmissions');
+            if (elTotal) elTotal.textContent = total;
+            const elApproved = document.getElementById('statApprovedSubmissions');
+            if (elApproved) elApproved.textContent = approved;
+            const elPending = document.getElementById('statPendingSubmissions');
+            if (elPending) elPending.textContent = pending;
+            const elRejected = document.getElementById('statRejectedSubmissions');
+            if (elRejected) elRejected.textContent = rejected;
+
+            const elSide = document.getElementById('sidebarMyCount');
+            if (elSide) elSide.textContent = total;
+        }
+
+        function renderOverviewRecentTable() {
+            const tbody = document.getElementById('overviewRecentTableBody');
+            if (!tbody) return;
+            const recent = myProjects.slice(0, 4);
+
+            if (recent.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:#94a3b8;">No projects submitted yet. Click "Submit Project Now" above!</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = recent.map(p => {
+                let badgeClass = p.status === 'Approved' ? 'badge-approved' : p.status === 'Pending' ? 'badge-pending' : 'badge-rejected';
+                return `
+                    <tr>
+                        <td><strong>${p.title}</strong></td>
+                        <td><span class="badge badge-category">${p.category}</span></td>
+                        <td>${p.batch}</td>
+                        <td><span class="badge ${badgeClass}">${p.status}</span></td>
+                        <td style="text-align:right;">
+                            <a href="project-details.html?id=${p.projectId}" class="btn btn-outline btn-sm">View ↗</a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderStudentProjectsTable() {
+            const tbody = document.getElementById('studentProjectsTableBody');
+            if (!tbody) return;
+
+            if (myProjects.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align:center;padding:48px 20px;color:#64748b;">
+                            <div style="font-size:32px;margin-bottom:8px;">📂</div>
+                            <h4>No Project Submissions Found</h4>
+                            <p style="font-size:13px;margin-top:4px;">Use the "Submit Project" option in the left sidebar to add your mini project.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = myProjects.map(p => {
+                let badgeClass = p.status === 'Approved' ? 'badge-approved' : p.status === 'Pending' ? 'badge-pending' : 'badge-rejected';
+                const formattedDate = new Date(p.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const isEditable = p.status !== 'Approved';
+
+                return `
+                    <tr>
+                        <td>
+                            <strong style="color:var(--dark);font-size:14px;display:block;">${p.title}</strong>
+                            ${p.rejectionReason ? `<small style="color:#dc2626;display:block;margin-top:4px;font-weight:600;">Faculty Note: ${p.rejectionReason}</small>` : ''}
+                        </td>
+                        <td><span class="badge badge-category">${p.category}</span></td>
+                        <td>${p.batch}</td>
+                        <td style="max-width:180px;font-size:12px;color:#64748b;">${p.technologies}</td>
+                        <td><span class="badge ${badgeClass}">${p.status}</span></td>
+                        <td style="font-size:12px;color:#64748b;">${formattedDate}</td>
+                        <td style="text-align:right;">
+                            <div class="action-group" style="justify-content:flex-end;">
+                                <a href="project-details.html?id=${p.projectId}" class="btn btn-outline btn-sm" title="View details">👁️</a>
+                                ${isEditable ? `
+                                    <button onclick="editProjectFromSidebar(${p.projectId})" class="btn btn-outline btn-sm" title="Edit">✏️ Edit</button>
+                                    <button onclick="deleteProjectPrompt(${p.projectId})" class="btn btn-danger btn-sm" title="Delete">🗑️</button>
+                                ` : `
+                                    <span style="font-size:11px;color:#15803d;font-weight:700;padding:4px 8px;background:#dcfce7;border-radius:6px;">Live</span>
+                                `}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Image file reading & live preview
+        function handleImageFile(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('projectScreenshot').value = e.target.result;
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('previewContainer').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function editProjectFromSidebar(id) {
+            const p = myProjects.find(item => item.projectId === id);
+            if (!p) return;
+
+            document.getElementById('editProjectId').value = p.projectId;
+            document.getElementById('projectFormHeading').textContent = `Edit Project Details (#${p.projectId})`;
+            document.getElementById('saveBtn').textContent = 'Save Changes & Resubmit ↗';
+
+            document.getElementById('projectTitle').value = p.title;
+            document.getElementById('projectCategory').value = p.category;
+            document.getElementById('projectBatch').value = p.batch;
+            document.getElementById('projectTech').value = p.technologies;
+            document.getElementById('projectGithub').value = p.githubLink || '';
+            document.getElementById('projectScreenshot').value = p.screenshotPath || '';
+            document.getElementById('projectDesc').value = p.description;
+
+            if (p.screenshotPath) {
+                document.getElementById('imagePreview').src = p.screenshotPath;
+                document.getElementById('previewContainer').style.display = 'block';
+            }
+
+            navigateSidebar('view-student-submit', 'Edit Project', 'Update project details and resubmit for faculty review');
+        }
+
+        async function handleProjectFormSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProjectId').value;
+            const title = document.getElementById('projectTitle').value.trim();
+            const category = document.getElementById('projectCategory').value;
+            const batch = document.getElementById('projectBatch').value;
+            const technologies = document.getElementById('projectTech').value.trim();
+            const githubLink = document.getElementById('projectGithub').value.trim();
+            const screenshotPath = document.getElementById('projectScreenshot').value.trim() || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800';
+            const description = document.getElementById('projectDesc').value.trim();
+
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving to MySQL...';
+
+            const payload = { title, category, batch, technologies, githubLink, screenshotPath, description };
+
+            try {
+                if (editId) {
+                    await ProjectHubAPI.updateProject(editId, payload);
+                    showToast('Project updated and resubmitted for faculty approval!', 'success');
+                } else {
+                    await ProjectHubAPI.addProject(payload);
+                    showToast('Project saved to MySQL database! It is now pending review.', 'success');
+                }
+
+                // Reset Form
+                document.getElementById('projectForm').reset();
+                document.getElementById('editProjectId').value = '';
+                document.getElementById('projectFormHeading').textContent = 'Submit Academic Mini Project';
+                document.getElementById('previewContainer').style.display = 'none';
+
+                loadMyProjects();
+                navigateSidebar('view-student-submissions', 'My Submissions', 'Manage and track your project approvals');
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Submit Project to MySQL ↗';
+            }
+        }
+
+        async function deleteProjectPrompt(id) {
+            if (!confirm('Are you sure you want to delete this project submission from the database?')) return;
+            try {
+                await ProjectHubAPI.deleteProject(id);
+                showToast('Project deleted successfully.', 'info');
+                loadMyProjects();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // ==========================================
+        // BROWSE MODULE (MODULE 4)
+        // ==========================================
+        function debounceBrowseSearch() {
+            clearTimeout(browseDebounceTimer);
+            browseDebounceTimer = setTimeout(loadApprovedProjects, 250);
+        }
+
+        async function loadApprovedProjects() {
+            const search = document.getElementById('browseSearchInput')?.value.trim() || '';
+            const category = document.getElementById('browseCategoryFilter')?.value || 'All';
+            const batch = document.getElementById('browseBatchFilter')?.value || 'All';
+            const grid = document.getElementById('browseGrid');
+
+            if (!grid) return;
+
+            try {
+                const params = {};
+                if (search) params.search = search;
+                if (category !== 'All') params.category = category;
+                if (batch !== 'All') params.batch = batch;
+
+                const res = await ProjectHubAPI.getAllProjects(params);
+                approvedProjects = res.projects || [];
+
+                if (approvedProjects.length === 0) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b; background: white; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                            <span style="font-size: 32px;">🔍</span>
+                            <h4 style="margin-top: 8px;">No approved projects matching filters</h4>
+                            <p style="font-size: 13px; margin-top: 4px;">Try a different keyword or category filter.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = approvedProjects.map(p => {
+                    const techList = (p.technologies || '')
+                        .split(',')
+                        .map(t => `<span style="background: #f1f5f9; color: #475569; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600;">${t.trim()}</span>`)
+                        .join(' ');
+
+                    return `
+                        <article class="project-card">
+                            <div class="project-image" style="background: #f1f5f9; padding: 0;">
+                                <img src="${p.screenshotPath || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'}" alt="${p.title || 'Project'}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'">
+                                <span class="image-caption" style="background: rgba(15,23,42,0.7); color: white; padding: 2px 8px; border-radius: 4px;">
+                                    ${(p.category || 'General').toUpperCase()}
+                                </span>
+                            </div>
+
+                            <div class="project-info">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span class="badge badge-category">${p.category || 'General'}</span>
+                                    <span style="font-size: 11px; font-weight: 700; color: #94a3b8;">${p.batch || ''}</span>
+                                </div>
+
+                                <h3 style="margin-top: 6px; font-size: 16px; font-weight: 700;">
+                                    <a href="project-details.html?id=${p.projectId}">${p.title || 'Untitled Project'}</a>
+                                </h3>
+
+                                <p style="font-size: 12px; color: #64748b; margin-top: 6px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 36px;">
+                                    ${p.description || ''}
+                                </p>
+
+                                <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px;">
+                                    ${techList}
+                                </div>
+
+                                <div class="project-footer" style="margin-top: 14px; padding-top: 10px;">
+                                    <span style="font-weight: 700; color: #334155; font-size: 11px;">
+                                        ${p.studentName || 'Student'}
+                                    </span>
+                                    <a href="project-details.html?id=${p.projectId}" title="View Details">↗</a>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+            } catch (err) {
+                grid.innerHTML = `<p style="color:#ef4444;text-align:center;">Failed to load projects: ${err.message}</p>`;
+            }
+        }
+
+        // ==========================================
+        // FACULTY MODULE: ANALYTICS & APPROVAL QUEUE
+        // ==========================================
+        async function loadDashboardStats() {
+            try {
+                const res = await ProjectHubAPI.getDashboardStats();
+                const stats = res.stats || {};
+
+                const elTot = document.getElementById('facStatTotal');
+                if (elTot) elTot.textContent = stats.totalProjects || 0;
+                const elPen = document.getElementById('facStatPending');
+                if (elPen) elPen.textContent = stats.pendingCount || 0;
+                const elApp = document.getElementById('facStatApproved');
+                if (elApp) elApp.textContent = stats.approvedCount || 0;
+                const elStu = document.getElementById('facStatStudents');
+                if (elStu) elStu.textContent = stats.totalStudents ?? 0;
+
+                renderCategoryBars(stats.categoryCounts || []);
+                renderBatchBars(stats.batchCounts || []);
+            } catch (err) {
+                console.error('Stats load error:', err);
+            }
+        }
+
+        function renderCategoryBars(categoryCounts) {
+            const container = document.getElementById('categoryBars');
+            if (!container) return;
+            if (!categoryCounts || categoryCounts.length === 0) {
+                container.innerHTML = '<p style="font-size: 13px; color: #94a3b8;">No category data.</p>';
+                return;
+            }
+            const maxCount = Math.max(...categoryCounts.map(c => c.count), 1);
+            container.innerHTML = categoryCounts.map(cat => {
+                const pct = Math.round((cat.count / maxCount) * 100);
+                return `
+                    <div class="bar-row">
+                        <span class="bar-label" title="${cat.category}">${cat.category}</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: ${pct}%;"></div>
+                        </div>
+                        <span class="bar-count">${cat.count}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderBatchBars(batchCounts) {
+            const container = document.getElementById('batchBars');
+            if (!container) return;
+            if (!batchCounts || batchCounts.length === 0) {
+                container.innerHTML = '<p style="font-size: 13px; color: #94a3b8;">No batch data.</p>';
+                return;
+            }
+            const maxCount = Math.max(...batchCounts.map(b => b.count), 1);
+            container.innerHTML = batchCounts.map(b => {
+                const pct = Math.round((b.count / maxCount) * 100);
+                return `
+                    <div class="bar-row">
+                        <span class="bar-label">${b.batch}</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: ${pct}%; background: #10b981;"></div>
+                        </div>
+                        <span class="bar-count">${b.count}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadPendingProjects() {
+            const container = document.getElementById('pendingQueueContainer');
+            const badge = document.getElementById('pendingBadgeHeader');
+            const sidebarBadge = document.getElementById('sidebarPendingBadge');
+
+            try {
+                const res = await ProjectHubAPI.getPendingProjects();
+                pendingProjects = res.projects || [];
+
+                if (badge) badge.textContent = `${pendingProjects.length} Pending`;
+                if (sidebarBadge) sidebarBadge.textContent = pendingProjects.length;
+
+                if (pendingProjects.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 48px 20px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                            <span style="font-size: 38px; display: block; margin-bottom: 10px;">🎉</span>
+                            <h4 style="font-size: 17px; font-weight: 700; color: var(--dark);">All Caught Up!</h4>
+                            <p style="font-size: 13px; color: #64748b; margin-top: 4px;">
+                                No pending project submissions waiting for review.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        ${pendingProjects.map(p => `
+                            <div style="background: white; border: 1.5px solid #fed7aa; border-radius: 14px; padding: 22px; display: grid; grid-template-columns: 140px 1fr auto; gap: 20px; align-items: center; box-shadow: 0 4px 16px rgba(249,115,22,0.06);">
+                                <div style="height: 100px; border-radius: 10px; overflow: hidden; background: #f1f5f9;">
+                                    <img src="${p.screenshotPath || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800'">
+                                </div>
+
+                                <div>
+                                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                                        <span class="badge badge-pending">Pending Review</span>
+                                        <span class="badge badge-category">${p.category}</span>
+                                        <span style="font-size: 11px; font-weight: 700; color: #64748b;">${p.batch}</span>
+                                    </div>
+
+                                    <h4 style="font-size: 17px; font-family: 'Manrope', sans-serif; font-weight: 700; color: var(--dark);">
+                                        ${p.title}
+                                    </h4>
+
+                                    <p style="font-size: 13px; color: #64748b; margin: 6px 0 10px; line-height: 1.5;">
+                                        ${p.description}
+                                    </p>
+
+                                    <div style="display: flex; gap: 16px; align-items: center; font-size: 12px; color: #475569;">
+                                        <span>👨‍🎓 <strong>${p.studentName || 'Student'}</strong> (${p.studentEmail || 'student@campus.edu'})</span>
+                                        <span>💻 <em>${p.technologies}</em></span>
+                                        ${p.githubLink ? `<a href="${p.githubLink}" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: underline;">GitHub Repo ↗</a>` : ''}
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 10px; min-width: 130px;">
+                                    <button onclick="approveProject(${p.projectId})" class="btn btn-success" style="padding: 10px 16px; font-size: 13px; justify-content: center;">
+                                        ✓ Approve Project
+                                    </button>
+                                    <button onclick="openRejectModal(${p.projectId})" class="btn btn-danger" style="padding: 9px 16px; font-size: 13px; justify-content: center;">
+                                        ✕ Reject / Revise
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = `<p style="color:#ef4444;font-size:13px;">Error: ${err.message}</p>`;
+            }
+        }
+
+        async function approveProject(id) {
+            try {
+                const res = await ProjectHubAPI.updateProjectStatus(id, 'Approved');
+                showToast(res.message || 'Project approved & published to MySQL!', 'success');
+                loadDashboardStats();
+                loadPendingProjects();
+                loadAllProjectsTable();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function openRejectModal(id) {
+            document.getElementById('rejectProjectId').value = id;
+            document.getElementById('feedbackText').value = '';
+            document.getElementById('rejectModal').classList.add('open');
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.remove('open');
+        }
+
+        async function submitRejection() {
+            const id = document.getElementById('rejectProjectId').value;
+            const feedback = document.getElementById('feedbackText').value.trim();
+            if (!feedback) {
+                showToast('Please provide feedback for the student.', 'warning');
+                return;
+            }
+            try {
+                const res = await ProjectHubAPI.updateProjectStatus(id, 'Rejected', feedback);
+                showToast(res.message || 'Project marked as Rejected with feedback sent.', 'info');
+                closeRejectModal();
+                loadDashboardStats();
+                loadPendingProjects();
+                loadAllProjectsTable();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function loadAllProjectsTable() {
+            const tbody = document.getElementById('allProjectsTableBody');
+            if (!tbody) return;
+            try {
+                const res = await ProjectHubAPI.getAllProjects();
+                allProjects = res.projects || [];
+                renderRepoTable(allProjects);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" style="color:#ef4444;text-align:center;">Error: ${err.message}</td></tr>`;
+            }
+        }
+
+        function renderRepoTable(list) {
+            const tbody = document.getElementById('allProjectsTableBody');
+            if (!tbody) return;
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8;">No projects found.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = list.map(p => {
+                const status = p.status || 'Pending';
+                const statusClass = status === 'Approved' ? 'badge-approved' : status === 'Rejected' ? 'badge-rejected' : 'badge-pending';
+                const note = status === 'Rejected' && p.rejectionReason ? `<small style="display:block;color:#b91c1c;font-size:11px;margin-top:4px;font-weight:600;">Feedback: ${p.rejectionReason}</small>` : '';
+
+                return `
+                    <tr>
+                        <td style="font-weight:700;color:#94a3b8;">#${p.projectId}</td>
+                        <td>
+                            <strong style="color:var(--dark);">${p.title}</strong>
+                            <small style="display:block;color:#64748b;font-size:11px;">${p.technologies}</small>
+                            ${note}
+                        </td>
+                        <td>${p.studentName || 'Student'}</td>
+                        <td><span class="badge badge-category">${p.category}</span></td>
+                        <td>${p.batch}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td style="text-align:right;">
+                            <a href="project-details.html?id=${p.projectId}" class="btn btn-outline btn-sm">View ↗</a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterRepoTable() {
+            const input = document.getElementById('repoSearchInput');
+            const query = input ? input.value.toLowerCase().trim() : '';
+            if (!query) {
+                renderRepoTable(allProjects);
+                return;
+            }
+            const filtered = allProjects.filter(p => 
+                (p.title && p.title.toLowerCase().includes(query)) || 
+                (p.technologies && p.technologies.toLowerCase().includes(query)) ||
+                (p.studentName && p.studentName.toLowerCase().includes(query)) ||
+                (p.category && p.category.toLowerCase().includes(query)) ||
+                (p.batch && p.batch.toLowerCase().includes(query))
+            );
+            renderRepoTable(filtered);
+        }
+    </script>
+</body>
+</html>

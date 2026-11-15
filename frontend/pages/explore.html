@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Projects | ProjectHub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/app-style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="header">
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                Project<span>Hub</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html">Home</a>
+                <a href="explore.html" class="active">Explore Projects</a>
+                <a href="../index.html#categories">Categories</a>
+                <a href="../index.html#about">About</a>
+
+                <div class="mobile-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started ↗</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="container page-hero-content">
+            <span class="eyebrow">✦ STUDENT REPOSITORY</span>
+            <h1>Explore Campus <span>Innovations.</span></h1>
+            <p>
+                Browse faculty-approved academic projects across domains. Search by technology, 
+                filter by batch or domain, and inspect student source repositories.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN EXPLORE CONTENT -->
+    <main class="container section-padding" style="padding-top: 32px;">
+
+        <!-- SEARCH AND FILTER TOOLBAR (MODULE 4) -->
+        <div class="filter-toolbar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search by project title, keyword, or technology (e.g. Node, Python, ESP32)..." oninput="debounceSearch()">
+            </div>
+
+            <div class="filter-selects">
+                <select id="batchFilter" onchange="loadProjects()">
+                    <option value="All">All Batches</option>
+                    <option value="2023-2027">Batch 2023-2027</option>
+                    <option value="2022-2026">Batch 2022-2026</option>
+                    <option value="2021-2025">Batch 2021-2025</option>
+                    <option value="2024-2028">Batch 2024-2028</option>
+                </select>
+
+                <select id="sortFilter" onchange="sortProjects()">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="alpha">Alphabetical (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CATEGORY CHIPS -->
+        <div class="category-chips" id="categoryChips">
+            <button class="chip active" onclick="setCategory('All', this)">All Categories</button>
+            <button class="chip" onclick="setCategory('Web Development', this)">🌐 Web Development</button>
+            <button class="chip" onclick="setCategory('Artificial Intelligence', this)">🤖 AI & Machine Learning</button>
+            <button class="chip" onclick="setCategory('Mobile Applications', this)">📱 Mobile Apps</button>
+            <button class="chip" onclick="setCategory('Internet of Things', this)">⚡ IoT & Embedded</button>
+            <button class="chip" onclick="setCategory('Cybersecurity', this)">🛡️ Cybersecurity</button>
+            <button class="chip" onclick="setCategory('Data Science', this)">📊 Data Science</button>
+        </div>
+
+        <!-- RESULTS COUNT & STATUS -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <p style="font-size: 13px; font-weight: 600; color: #64748b;" id="resultsCount">
+                Showing all projects...
+            </p>
+            <a href="student-dashboard.html" class="btn btn-outline btn-sm">
+                + Submit Your Project
+            </a>
+        </div>
+
+        <!-- PROJECTS GRID -->
+        <div class="project-grid" id="projectGrid">
+            <!-- Dynamic project cards injected by explore.js -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #94a3b8;">
+                Loading approved projects from database...
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo logo-light">
+                    <span class="logo-icon">P</span>
+                    Project<span>Hub</span>
+                </a>
+                <p>A digital showcase repository for student engineering projects.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Navigation</h4>
+                <a href="../index.html">Home</a>
+                <a href="explore.html">Browse Showcase</a>
+                <a href="../index.html#categories">Categories</a>
+            </div>
+            <div class="footer-column">
+                <h4>Portal</h4>
+                <a href="student-dashboard.html">Student Submission</a>
+                <a href="faculty-dashboard.html">Faculty Approval</a>
+                <a href="login.html">Login</a>
+            </div>
+            <div class="footer-column">
+                <h4>Academic</h4>
+                <a href="#">Problem Statement 4</a>
+                <a href="#">MySQL Integration</a>
+                <a href="#">Node & Express API</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>© <span id="currentYear"></span> ProjectHub. All rights reserved.</p>
+            <p>Built for Academic Excellence ✦</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        let allProjects = [];
+        let currentCategory = 'All';
+        let debounceTimer = null;
+
+        // On Load: Check URL parameters (e.g. ?category=Web)
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const catParam = params.get('category');
+            if (catParam) {
+                // Find matching chip
+                const chips = document.querySelectorAll('.chip');
+                chips.forEach(chip => {
+                    if (chip.textContent.toLowerCase().includes(catParam.toLowerCase())) {
+                        chips.forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        currentCategory = chip.textContent.replace(/[^a-zA-Z &]/g, '').trim();
+                    }
+                });
+            }
+            loadProjects();
+        });
+
+        function setCategory(category, buttonEl) {
+            currentCategory = category;
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            buttonEl.classList.add('active');
+            loadProjects();
+        }
+
+        function debounceSearch() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                loadProjects();
+            }, 250);
+        }
+
+        async function loadProjects() {
+            const search = document.getElementById('searchInput').value.trim();
+            const batch = document.getElementById('batchFilter').value;
+            const grid = document.getElementById('projectGrid');
+            const resultsCount = document.getElementById('resultsCount');
+
+            try {
+                // Route: GET /api/projects with query params
+                const params = {};
+                if (search) params.search = search;
+                if (currentCategory && currentCategory !== 'All') params.category = currentCategory;
+                if (batch && batch !== 'All') params.batch = batch;
+
+                const res = await ProjectHubAPI.getAllProjects(params);
+                allProjects = res.projects || [];
+                sortProjects();
+
+            } catch (err) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 12px; color: #c53030;">
+                        <h4>Unable to load projects</h4>
+                        <p style="font-size: 13px; margin-top: 6px;">${err.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function sortProjects() {
+            const sortMode = document.getElementById('sortFilter').value;
+            const grid = document.getElementById('projectGrid');
+            const resultsCount = document.getElementById('resultsCount');
+
+            if (sortMode === 'newest') {
+                allProjects.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            } else if (sortMode === 'oldest') {
+                allProjects.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+            } else if (sortMode === 'alpha') {
+                allProjects.sort((a, b) => a.title.localeCompare(b.title));
+            }
+
+            resultsCount.textContent = `Showing ${allProjects.length} approved project${allProjects.length === 1 ? '' : 's'}`;
+
+            if (allProjects.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px; background: white; border: 1px dashed #cbd5e1; border-radius: 14px;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 12px;">🔍</span>
+                        <h3 style="font-family: 'Manrope', sans-serif; font-size: 18px; color: var(--dark);">No Projects Found</h3>
+                        <p style="color: #64748b; font-size: 13px; margin-top: 6px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                            We couldn't find any approved projects matching your filters. Try adjusting your search query or category filter.
+                        </p>
+                        <button onclick="resetFilters()" class="btn btn-primary btn-sm" style="margin-top: 16px;">
+                            Reset All Filters
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = allProjects.map(p => {
+                const techList = (p.technologies || '')
+                    .split(',')
+                    .map(t => `<span style="background: #f1f5f9; color: #475569; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600;">${t.trim()}</span>`)
+                    .join(' ');
+
+                const imageSrc = p.screenshotPath || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=60';
+
+                return `
+                    <article class="project-card">
+                        <div class="project-image" style="background: #f1f5f9; padding: 0;">
+                            <img src="${imageSrc}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&auto=format&fit=crop&q=60'">
+                            <span class="image-caption" style="background: rgba(15,23,42,0.7); color: white; padding: 2px 8px; border-radius: 4px; backdrop-filter: blur(2px);">
+                                ${p.category.toUpperCase()}
+                            </span>
+                        </div>
+
+                        <div class="project-info">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span class="badge badge-category" style="font-size: 9px; padding: 3px 8px;">
+                                    ${p.category}
+                                </span>
+                                <span style="font-size: 11px; font-weight: 700; color: #94a3b8;">
+                                    ${p.batch || '2023-2027'}
+                                </span>
+                            </div>
+
+                            <h3 style="margin-top: 4px; font-size: 16px; font-weight: 700; line-height: 1.35;">
+                                <a href="project-details.html?id=${p.projectId}" style="color: var(--dark); transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--dark)'">
+                                    ${p.title}
+                                </a>
+                            </h3>
+
+                            <p style="font-size: 12px; color: #64748b; margin-top: 8px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 36px;">
+                                ${p.description}
+                            </p>
+
+                            <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px;">
+                                ${techList}
+                            </div>
+
+                            <div class="project-footer" style="margin-top: 16px; padding-top: 12px;">
+                                <div>
+                                    <span style="font-weight: 700; color: #334155; font-size: 11px;">
+                                        ${p.studentName || 'Student'}
+                                    </span>
+                                </div>
+                                <div style="display: flex; gap: 6px;">
+                                    ${p.githubLink ? `
+                                        <a href="${p.githubLink}" target="_blank" title="View Source on GitHub" style="color: #334155; background: #e2e8f0; font-size: 12px; font-weight: 800;">
+                                            GH
+                                        </a>
+                                    ` : ''}
+                                    <a href="project-details.html?id=${p.projectId}" title="View Details">
+                                        ↗
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('batchFilter').value = 'All';
+            setCategory('All', document.querySelector('.chip'));
+        }
+    </script>
+</body>
+</html>

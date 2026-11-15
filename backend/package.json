@@ -1,0 +1,19 @@
+{
+  "name": "projecthub-backend",
+  "version": "1.0.0",
+  "description": "ProjectHub Backend API & Database Service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "keywords": [
+    "hackathon",
+    "projecthub",
+    "express",
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

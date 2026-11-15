@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | ProjectHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/app-style.css">
+    <style>
+        body { background: #f1f5f9; display: flex; flex-direction: column; min-height: 100vh; }
+        .auth-page { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px 16px; }
+        .auth-card {
+            background: #fff; border-radius: 20px; padding: 40px 36px;
+            width: 100%; max-width: 440px;
+            box-shadow: 0 4px 32px rgba(66,104,232,0.10), 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .auth-logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; color: #1e293b; text-decoration: none; margin-bottom: 24px; }
+        .auth-logo .logo-icon { background: #4268e8; color: #fff; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; }
+        .auth-logo span:last-child { color: #4268e8; }
+        h2 { font-size: 24px; font-weight: 800; color: #1e293b; margin: 0 0 4px; }
+        .auth-sub { color: #64748b; font-size: 14px; margin-bottom: 24px; }
+        .role-tabs { display: flex; gap: 8px; margin-bottom: 24px; background: #f8fafc; border-radius: 12px; padding: 4px; }
+        .role-tab {
+            flex: 1; padding: 10px; border: none; border-radius: 9px; cursor: pointer;
+            font-size: 13px; font-weight: 600; color: #64748b; background: transparent; transition: all 0.2s;
+        }
+        .role-tab.active { background: #fff; color: #4268e8; box-shadow: 0 1px 6px rgba(66,104,232,0.15); }
+        .alert-box { display: none; padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 18px; line-height: 1.4; }
+        .alert-error   { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; display: block; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; display: block; }
+        .alert-info    { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; display: block; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+        .form-control {
+            width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+            font-size: 14px; color: #1e293b; outline: none; transition: border 0.2s; box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .form-control:focus { border-color: #4268e8; box-shadow: 0 0 0 3px rgba(66,104,232,0.12); }
+        .btn-submit {
+            width: 100%; padding: 13px; background: #4268e8; color: #fff; border: none;
+            border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; margin-top: 6px; font-family: 'DM Sans', sans-serif;
+        }
+        .btn-submit:hover { background: #3457d5; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(66,104,232,0.3); }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+        .demo-box { margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; }
+        .demo-title { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .demo-title span { color: #4268e8; }
+        .demo-btns { display: flex; gap: 8px; }
+        .demo-btn {
+            flex: 1; padding: 9px; background: #fff; border: 1.5px solid #e2e8f0;
+            border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151;
+            cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+        }
+        .demo-btn:hover { border-color: #4268e8; color: #4268e8; background: #eff6ff; }
+        .auth-footer { text-align: center; margin-top: 20px; font-size: 13px; color: #64748b; }
+        .auth-footer a { color: #4268e8; font-weight: 700; text-decoration: none; }
+        .header-bar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header-logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: #1e293b; text-decoration: none; }
+        .header-logo .logo-icon { background: #4268e8; color: #fff; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 900; }
+        .db-badge { font-size: 11px; font-weight: 700; color: #15803d; background: #dcfce7; padding: 4px 10px; border-radius: 99px; display: flex; align-items: center; gap: 5px; }
+        .db-dot { width: 7px; height: 7px; background: #16a34a; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    </style>
+</head>
+<body>
+
+    <header class="header-bar">
+        <a href="../index.html" class="header-logo">
+            <div class="logo-icon">P</div>
+            Project<span style="color:#4268e8">Hub</span>
+        </a>
+        <div class="db-badge">
+            <div class="db-dot"></div>
+            MySQL Connected
+        </div>
+        <a href="register.html" style="font-size:13px;font-weight:700;color:#4268e8;text-decoration:none;">Create Account →</a>
+    </header>
+
+    <div class="auth-page">
+        <div class="auth-card">
+            <a href="../index.html" class="auth-logo">
+                <div class="logo-icon">P</div>
+                Project<span>Hub</span>
+            </a>
+            <h2>Welcome Back</h2>
+            <p class="auth-sub">Sign in to access your project showcase dashboard</p>
+
+            <!-- Alert Box -->
+            <div class="alert-box" id="alertBox"></div>
+
+            <!-- Role Tabs -->
+            <div class="role-tabs">
+                <button type="button" class="role-tab active" id="tabStudent" onclick="switchRole('student')">
+                    👨‍🎓 Student
+                </button>
+                <button type="button" class="role-tab" id="tabFaculty" onclick="switchRole('faculty')">
+                    👨‍🏫 Faculty / Reviewer
+                </button>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="hidden" id="loginRole" value="student">
+
+                <div class="form-group">
+                    <label for="email">Campus Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="student@campus.edu" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit">
+                    Sign In to Portal →
+                </button>
+            </form>
+
+            <!-- 1-Click Demo -->
+            <div class="demo-box">
+                <div class="demo-title">
+                    ⚡ 1-Click Demo Login
+                    <span>Instant Access</span>
+                </div>
+                <div class="demo-btns">
+                    <button class="demo-btn" onclick="quickLogin('student')">👨‍🎓 Student Demo</button>
+                    <button class="demo-btn" onclick="quickLogin('faculty')">👨‍🏫 Faculty Demo</button>
+                </div>
+            </div>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="register.html">Create one →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        // Check if already logged in → go to dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            redirectIfLoggedIn();
+
+            // Check URL param for pre-select role
+            const role = new URLSearchParams(window.location.search).get('role');
+            if (role === 'faculty') switchRole('faculty');
+        });
+
+        function showAlert(msg, type = 'error') {
+            const box = document.getElementById('alertBox');
+            box.className = 'alert-box alert-' + type;
+            box.innerHTML = (type === 'error' ? '⚠️ ' : type === 'success' ? '✅ ' : 'ℹ️ ') + msg;
+        }
+
+        function switchRole(role) {
+            document.getElementById('loginRole').value = role;
+            document.getElementById('tabStudent').classList.toggle('active', role === 'student');
+            document.getElementById('tabFaculty').classList.toggle('active', role === 'faculty');
+            document.getElementById('email').placeholder = role === 'faculty' ? 'faculty@campus.edu' : 'student@campus.edu';
+        }
+
+        function quickLogin(role) {
+            switchRole(role);
+            document.getElementById('email').value = role === 'faculty' ? 'faculty@campus.edu' : 'student@campus.edu';
+            document.getElementById('password').value = 'Password123!';
+            showAlert('Loading demo credentials...', 'info');
+            setTimeout(() => document.getElementById('loginForm').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })), 300);
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const btn      = document.getElementById('submitBtn');
+
+            btn.disabled    = true;
+            btn.textContent = 'Connecting...';
+            showAlert('Verifying credentials with MySQL...', 'info');
+
+            try {
+                const res = await ProjectHubAPI.login({ email, password });
+
+                if (res && res.token && res.user) {
+                    // Save session
+                    localStorage.setItem('projecthub_token', res.token);
+                    localStorage.setItem('projecthub_user', JSON.stringify(res.user));
+
+                    showAlert(`Welcome ${res.user.name}! Redirecting to dashboard...`, 'success');
+                    btn.textContent = '✓ Redirecting...';
+
+                    // Go to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 500);
+                } else {
+                    throw new Error('Invalid response from server.');
+                }
+            } catch (err) {
+                showAlert(err.message || 'Login failed. Check your credentials.', 'error');
+                btn.disabled    = false;
+                btn.textContent = 'Sign In to Portal →';
+            }
+        }
+    </script>
+</body>
+</html>

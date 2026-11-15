@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | ProjectHub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/app-style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="header">
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">P</span>
+                Project<span>Hub</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html">Home</a>
+                <a href="explore.html">Explore Projects</a>
+                <a href="../index.html#categories">Categories</a>
+
+                <div class="mobile-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started ↗</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="container section-padding" style="padding-top: 36px;">
+
+        <!-- Back Button & Breadcrumb -->
+        <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="explore.html" onclick="if (window.history.length > 1) { history.back(); return false; }" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--primary);">
+                ← Back
+            </a>
+            <div id="dashboardReturnBtn"></div>
+        </div>
+
+        <div id="projectDetailsContainer">
+            <div style="text-align: center; padding: 60px; color: #94a3b8;">
+                Loading project details...
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom">
+            <p>© <span id="currentYear"></span> ProjectHub. Academic Mini Project Showcase Portal.</p>
+            <p>Designed for Students & Faculty ✦</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (!id) {
+                document.getElementById('projectDetailsContainer').innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; border: 1px solid var(--border);">
+                        <h3>No Project Selected</h3>
+                        <p style="margin-top: 8px; color: #64748b;">Please select a project from the explore page.</p>
+                        <a href="explore.html" class="btn btn-primary" style="margin-top: 16px;">Browse Projects ↗</a>
+                    </div>
+                `;
+                return;
+            }
+            loadProject(id);
+        });
+
+        async function loadProject(id) {
+            const container = document.getElementById('projectDetailsContainer');
+            try {
+                // Route: GET /api/projects/:id
+                const res = await ProjectHubAPI.getProjectById(id);
+                const p = res.project;
+
+                const techList = (p.technologies || '')
+                    .split(',')
+                    .map(t => `<span class="badge" style="background: #f1f5f9; color: #334155; font-size: 12px; padding: 6px 12px;">${t.trim()}</span>`)
+                    .join(' ');
+
+                const formattedDate = new Date(p.created_at || Date.now()).toLocaleDateString('en-US', {
+                    month: 'long', day: 'numeric', year: 'numeric'
+                });
+
+                container.innerHTML = `
+                    <div style="background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+                        
+                        <!-- Top Banner / Screenshot -->
+                        <div style="width: 100%; height: 380px; background: #0f172a; position: relative; overflow: hidden;">
+                            <img src="${p.screenshotPath || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200'}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200'">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, transparent 0%, rgba(15,23,42,0.85) 100%); padding: 32px 36px;">
+                                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                                    <span class="badge" style="background: var(--primary); color: white;">${p.category}</span>
+                                    <span class="badge" style="background: rgba(255,255,255,0.25); color: white;">Batch ${p.batch}</span>
+                                    <span class="badge ${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}">
+                                        ${p.status}
+                                    </span>
+                                </div>
+                                <h1 style="color: white; font-family: 'Manrope', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">
+                                    ${p.title}
+                                </h1>
+                            </div>
+                        </div>
+
+                        <!-- Details Body -->
+                        <div style="padding: 36px; display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+                            
+                            <!-- Left: Description and Tech Stack -->
+                            <div>
+                                <h3 style="font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 14px; color: var(--dark);">
+                                    Project Overview & Solution
+                                </h3>
+                                <p style="font-size: 15px; color: #475569; line-height: 1.8; white-space: pre-line;">
+                                    ${p.description}
+                                </p>
+
+                                <h3 style="font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 700; margin-top: 32px; margin-bottom: 14px; color: var(--dark);">
+                                    Technologies & Tools Used
+                                </h3>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${techList}
+                                </div>
+                            </div>
+
+                            <!-- Right: Metadata & Actions -->
+                            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 24px; height: fit-content;">
+                                <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; margin-bottom: 16px;">
+                                    Project Information
+                                </h4>
+
+                                <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
+                                    <div>
+                                        <span style="display: block; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;">Student Creator</span>
+                                        <strong style="color: var(--dark);">${p.studentName || 'Student'}</strong>
+                                        <span style="display: block; color: #64748b; font-size: 12px;">${p.studentEmail || 'student@campus.edu'}</span>
+                                    </div>
+
+                                    <div>
+                                        <span style="display: block; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;">Academic Batch</span>
+                                        <strong style="color: var(--dark);">${p.batch}</strong>
+                                    </div>
+
+                                    <div>
+                                        <span style="display: block; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;">Submission Date</span>
+                                        <span style="color: #475569;">${formattedDate}</span>
+                                    </div>
+
+                                    <div>
+                                        <span style="display: block; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;">Review Status</span>
+                                        <span class="badge ${p.status === 'Approved' ? 'badge-approved' : 'badge-pending'}" style="margin-top: 4px;">
+                                            ${p.status}
+                                        </span>
+                                    </div>
+
+                                    ${p.githubLink ? `
+                                        <div style="margin-top: 12px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+                                            <a href="${p.githubLink}" target="_blank" class="btn btn-primary" style="width: 100%; justify-content: center; gap: 8px;">
+                                                <span>GitHub Repository</span> ↗
+                                            </a>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+            } catch (err) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; border: 1px solid #fecaca; color: #b91c1c;">
+                        <h3>Failed to load project details</h3>
+                        <p style="margin-top: 6px; font-size: 14px;">${err.message}</p>
+                        <a href="dashboard.html" class="btn btn-outline" style="margin-top: 16px;">Back to Dashboard</a>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

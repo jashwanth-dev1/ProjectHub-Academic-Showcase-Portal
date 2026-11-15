@@ -1,0 +1,13 @@
+{
+  "name": "projecthub-portal",
+  "version": "1.0.0",
+  "description": "ProjectHub - Academic Mini Project Showcase Portal",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "seed": "cd backend && node seed.js",
+    "postinstall": "cd backend && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
